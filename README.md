@@ -178,27 +178,35 @@ Quel est le type de l'objet `df`?
 Que permettent les méthodes suivantes?
 ###### df.shape
 ```
+Donne les dimensions du df
 ```
 ###### df.head()
 ```
+Renvoie les n premières lignes de df (par défaut 5)
 ```
 ###### df.tail()
 ```
+Cette fonction renvoie les n dernières lignes de df
 ```
 ###### df.columns
 ```
+Renvoie le nom des colonnes
 ```
 ###### df.dtypes
 ```
+Renvoie le type de données de chaque colonne
 ```
 ###### df.info
 ```
+Infos sur df avec l'index, dtype et colonnes, non-null values et mémoire utilisée
 ```
 ###### df.describe()
 ```
+Décrit les statistiques (sans les NaN)
 ```
 ###### df.dropna()
 ```
+Enlève les valeurs manquantes
 ```
 
 ##### Accès aux éléments d'une table de données
@@ -208,6 +216,9 @@ values = df[['Description', 'Gene Symbol']]
 ```
 
 Quel est le type de `values` ?
+```
+C'est un dataframe avec que les 2 colonnes qu'on a sélectionné
+```
 
 Verifiez si certaines méthodes de `DataFrame` lui sont applicables.
 Ce type supporte l'accès par indice et les slice `[a:b]`
@@ -217,18 +228,19 @@ Ce type supporte l'accès par indice et les slice `[a:b]`
 On peut accéder aux valeurs du DataFrame via des indices ou plages d'indice. La structure se comporte alors comme une matrice. La cellule en haut et à gauche est de coordonnées (0,0).
 Il y a différentes manières de le faire, l'utilisation de `.iloc[slice_ligne,slice_colonne]` constitue une des solutions les plus simples. N'oublions pas que shape permet d'obtenir les dimensions (lignes et colonnes) du DataFrame.
 ###### Acceder aux cinq premières lignes de toutes les colonnes
-```python
+```python 
+print(df.iloc[0:5,:])
 
 ```
 
 ###### Acceder à toutes les lignes de la dernière colonne
 ```python
-
+print(df.iloc[:,-1])
 ```
 
 ###### Acceder aux cinq premières lignes des colonnes 0, 2 et 3
 ```python
-
+print(df.iloc[0:5,[0,2,3]])
 ```
 
 ##### Conversion de type
@@ -302,7 +314,7 @@ ax.plot(x, norm.pdf(x, mu, sigma)*scale) # compute theoritical PDF and draw it
 ##### 5. Quelles remarques peut-on faire à l'observation de l'histogramme et de la loi théorique?
 
 ```
-
+La distribution ne suit pas une loi normale.
 
 ```
 
@@ -326,12 +338,11 @@ Nous allons implementer une approche ORA (Over Representation Analysis) naive.
 
 Quelles sont leurs identifiants UNIPROT ?
 ``` 
-
-
+P23721, P77804, P0A6K6, P0A799, P0A7G6, P0A6F3, P25745, P0A6M8, P0A6L0, P0A8V6, P0A9Q1, P02358, P0ACF8, P62399, P0A905, P76506, P13036, P10384, P06971, P0A910, P06996, P76344, P02931
 
 ```
 
-#### 2. Lister les termes GO portés par ces protéines surabondates
+#### 2. Lister les termes GO portés par ces protéines surabondantes
 
 Les `entry` du fichier `data/uniprot-proteome_UP000000625.xml` présentent des balises de ce type:
 
@@ -398,8 +409,8 @@ Completer le tableau ci-dessous avec les quantités vous semblant adéquates pou
 | --- | --- | --- |
 | k | nombre de succès observés| |
 | K | nombre de succès possibles| |
-| n | nombre d'observations| |
-| N | nombre d'elements observables| |
+| n | nombre d'observations| 23 |
+| N | nombre d'elements observables| 1746 |
 
 #### 4. Calcul de l'enrichissement en fonction biologiques
 
@@ -431,7 +442,7 @@ Valider le mapping produit par STRING en clickant sur 'Continue'.
 Combien d'interactions contient ce réseau ?
 
 ```
-
+77
 
 
 
@@ -448,10 +459,17 @@ Combien d'interactions sont supportées par chaque source ('Textmining', 'Experi
 Hint: l'onglet Analysis, donne accès aux nombre des interactions du réseau.
 ```
 
-
-
+Textmining : 29
+Experiments : 8
+Databases : 4
+Co-expression : 9
+Neighborhood : 1
+Gene Fusion : 0
+Co-occurence : 7
 
 ```
+
+![Réseau](./networks.png  "Titre de l'image").
 
 #### Analyse du réseau des protéines sur-exprimées dans le contexte du réseau global.
 
@@ -460,7 +478,7 @@ Consulter la rubrique 'Network Stats' dans l'onglet Analysis.
 Que peut-on en conclure sur les interactions de ce petit ensemble de protéines ?
 ```
 
-
+Le coeur du réseau c'est outer membrane proteins. Donc des protéines de la membrane externe
 
 
 ```
@@ -471,7 +489,7 @@ ajouter les interacteurs de la première et de la deuxième couche.
 Que pouvez-vous en déduire sur les mécanismes activés par la présente de tétracycline ?
 ```
 
-
+On passe de 23 à 33 protéines et sur les 10 protéines rajoutées on a surtout des protéines ribosomales. Ce sont donc des protéines d'export et de synthèse de protéines qui sont impactées par la tétracycline 
 
 
 ```
@@ -482,7 +500,7 @@ Est-ce cohérent avec votre analyse précédente ?
 
 ```
 
-
+On a des termes GO liés à la synthèse de prot dans le ribosome et des termes GO liés à la fonction d'exports --> logique. 
 
 
 ```
